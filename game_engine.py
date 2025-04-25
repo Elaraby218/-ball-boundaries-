@@ -16,7 +16,7 @@ def game(queue):
             "counter" : 0}
 
 
-    ball = Ball((3,3), 0.001, context)
+    ball = Ball((3,3), 0.0001, context)
     player_bar = PlayerBar(queue,context)
     objects = [ball, player_bar]
     ms = 0
@@ -45,13 +45,17 @@ def game(queue):
         text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
         screen.blit(text, text_rect)
 
-        if ball.is_over():
+        while ball.is_over():
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
             screen.fill("RED")
-            text = font.render("Game Over", True, (255, 255, 255))
+            text = font.render(f"Game Over \n your Score is {context['counter']}", True, (255, 255, 255))
+            
             text_rect = text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
             screen.blit(text, text_rect)
             pygame.display.flip()
-            pygame.time.wait(10000)
 
         for obj in objects:
             obj.draw(screen)
