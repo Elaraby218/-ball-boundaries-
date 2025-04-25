@@ -13,10 +13,11 @@ from game_objects.ball import Ball
 def game(queue):
 
     context = {
-            "counter" : 0}
+        "counter" : 0
+    }
 
 
-    ball = Ball((3,3), 0.0001, context)
+    ball = Ball((3,3), 1, context)
     player_bar = PlayerBar(queue,context)
     objects = [ball, player_bar]
     ms = 0
@@ -50,6 +51,11 @@ def game(queue):
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                    ball.reset()
+                    context['counter'] = 0
+
+
             screen.fill("RED")
             text = font.render(f"Game Over \n your Score is {context['counter']}", True, (255, 255, 255))
             

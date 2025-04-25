@@ -10,9 +10,12 @@ class Ball:
     def __init__(self, init_speed: Tuple[float, float], speed_inc: float ,context) -> None:
         self._x = PlayerBar.BAR_WIDTH + 50
         self._y = 30
+        self._init_speed = init_speed
         self._speed = init_speed
-        self._sppend_inc = speed_inc
+        self._speed_inc = speed_inc
         self._context = context
+
+
 
     def _collide(self, on_X: bool):
         """
@@ -33,8 +36,8 @@ class Ball:
         :return: None
         """
         self._speed = (
-            abs(self._speed[0]) + self._sppend_inc,
-            abs(self._speed[1]) + self._sppend_inc,
+            abs(self._speed[0]) + self._speed_inc,
+            abs(self._speed[1]) + self._speed_inc,
         )
 
         sign = (1 if self._speed[0] > 0 else -1, 1 if self._speed[1] > 0 else -1)
@@ -46,8 +49,8 @@ class Ball:
         Move the ball by the speed value
         :return: None
         """
-        self._x += self._speed[0] * delta_time
-        self._y += self._speed[1] * delta_time
+        self._x += self._speed[0]
+        self._y += self._speed[1]
         if (
             self._x <= PlayerBar.BAR_WIDTH and
             player_bar.y <= self._y <= player_bar.y + player_bar.BAR_HEIGHT
@@ -55,7 +58,7 @@ class Ball:
             self._x = PlayerBar.BAR_WIDTH + 1
             self._collide(True)
             self._context['counter'] +=1
-            # self._increase_speed()
+            self._increase_speed()
 
         elif self._x >= SCREEN_WIDTH:
             self._x = SCREEN_WIDTH
@@ -80,3 +83,14 @@ class Ball:
         Check if the ball is over the bar
         """
         return self._x < PlayerBar.BAR_WIDTH
+
+    def reset(self):
+        """
+        Reset the ball position
+        """
+        self._x = PlayerBar.BAR_WIDTH + 50
+        self._y = 30
+        self._speed = self._init_speed
+        print(self._init_speed , self._speed)
+
+
