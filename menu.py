@@ -1,13 +1,24 @@
 import pygame
 
+
 class Button:
-    def __init__(self, x, y, width, height, text, color=(100, 100, 100), hover_color=(150, 150, 150)):
+    def __init__(
+        self,
+        x,
+        y,
+        width,
+        height,
+        text,
+        color=(100, 100, 100),
+        hover_color=(150, 150, 150),
+    ):
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.color = color
         self.hover_color = hover_color
         self.is_hovered = False
         self.font = pygame.font.Font(None, 36)
+        self.sound_volume = 100
 
     def draw(self, screen):
         color = self.hover_color if self.is_hovered else self.color
@@ -25,6 +36,7 @@ class Button:
             if self.is_hovered:
                 return True
         return False
+
 
 class Menu:
     def __init__(self, screen_width, screen_height):
@@ -45,23 +57,23 @@ class Menu:
             start_y,
             button_width,
             button_height,
-            "Play"
+            "Play",
         )
-        
+
         self.guide_button = Button(
             self.screen_width // 2 - button_width // 2,
             start_y + button_height + spacing,
             button_width,
             button_height,
-            "Guide"
+            "Guide",
         )
-        
+
         self.settings_button = Button(
             self.screen_width // 2 - button_width // 2,
             start_y + (button_height + spacing) * 2,
             button_width,
             button_height,
-            "Settings"
+            "Settings",
         )
 
         self.buttons = [self.play_button, self.guide_button, self.settings_button]
@@ -70,7 +82,9 @@ class Menu:
         # Draw title
         title_font = pygame.font.Font(None, 74)
         title_text = title_font.render("Ball Boundaries", True, (255, 255, 255))
-        title_rect = title_text.get_rect(center=(self.screen_width // 2, self.screen_height // 4))
+        title_rect = title_text.get_rect(
+            center=(self.screen_width // 2, self.screen_height // 4)
+        )
         screen.blit(title_text, title_rect)
 
         # Draw buttons
@@ -86,4 +100,4 @@ class Menu:
                     return "guide"
                 elif button == self.settings_button:
                     return "settings"
-        return None 
+        return None
