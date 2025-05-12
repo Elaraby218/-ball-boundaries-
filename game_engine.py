@@ -24,6 +24,13 @@ class GameEngine:
             "difficulty": 1
         }
         self._initialize_states()
+        self._initialize_audio()
+        
+    def _initialize_audio(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('assets/sounds/background.mp3')
+        pygame.mixer.music.set_volume(0.5)  # Set initial volume to 50%
+        pygame.mixer.music.play(-1)  # -1 means loop indefinitely
         
     def _initialize_states(self):
         self.state_manager.add_state("menu", MenuState(self))
@@ -32,6 +39,12 @@ class GameEngine:
         self.state_manager.add_state("guide", GuideState(self))
         self.state_manager.add_state("settings", SettingsState(self))
         self.state_manager.change_state("menu")
+
+    def update(self, delta_time):
+        self.state_manager.update(delta_time)
+
+    def draw(self, screen):
+        self.state_manager.draw(screen)
 
 def game(queue):
     pygame.init()
@@ -52,8 +65,8 @@ def game(queue):
                 exit()
             game_engine.state_manager.handle_event(event)
 
-        game_engine.state_manager.update(delta_time)
-        game_engine.state_manager.draw(screen)
+        game_engine.update(delta_time)
+        game_engine.draw(screen)
         
         pygame.display.flip()
         clock.tick(60)

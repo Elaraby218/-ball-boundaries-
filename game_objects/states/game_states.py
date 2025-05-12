@@ -257,8 +257,10 @@ class SettingsState(BaseState):
                 self.game_engine.state_manager.change_state("menu")
             elif event.key == pygame.K_UP:
                 self.volume = min(100, self.volume + 5)
+                pygame.mixer.music.set_volume(self.volume / 100)
             elif event.key == pygame.K_DOWN:
                 self.volume = max(0, self.volume - 5)
+                pygame.mixer.music.set_volume(self.volume / 100)
             elif event.key == pygame.K_d:
                 self.difficulty = 2 if self.difficulty == 1 else 1
 
