@@ -58,6 +58,8 @@ class Ball:
             self._collide(True)
             self._context["counter"] += 1
             self._increase_speed()
+            pygame.mixer.Sound('assets/sounds/hit-bar.mp3').play()
+
 
         elif self._x >= SCREEN_WIDTH:
             self._x = SCREEN_WIDTH
@@ -81,7 +83,9 @@ class Ball:
         """
         Check if the ball is over the bar
         """
-        return self._x < PlayerBar.BAR_WIDTH
+        if self._x < PlayerBar.BAR_WIDTH:
+            return True
+        return False
 
     def reset(self, speed: Tuple[float, float] | None =None, speed_inc: float| None= None):
         """
